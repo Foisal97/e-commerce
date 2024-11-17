@@ -1,30 +1,30 @@
 import { useParams } from "react-router-dom"
-import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap"
 import Rating from "../components/Rating"
-import axios from "axios"
+import { useGetProductDetailQuery } from "../slices/productApiSlice"
 
 const ProductScreen = () => {
-    const [product, setProducts] = useState({});
 
-    const { id:productId } =  useParams()
-    useEffect(()=>{
-        const fetchProducts = async () =>{
-            const {data} = await axios.get(`/api/products/${productId}`);
-            setProducts(data);
-        }
-    fetchProducts();
-
-    }, [productId]);
+    const {id: productId} = useParams();
+    const {data: product, isLoading, error} = useGetProductDetailQuery(productId)
 
   return (
+    
     <>
+    
     <Link className="btn btn-light my-3" to="/">
        Go Back
     </Link>
-
-    <Row>
+    {isLoading ? (
+        <h2>Loading...</h2>
+    ) : error ? (
+        <div>
+            {error?.data?.message || error.error }
+        </div>
+    ) : (
+        
+        <Row>
         <Col md={5}>
         <Image src={product.image} alt={product.name} fluid/>
         </Col>
@@ -33,6 +33,7 @@ const ProductScreen = () => {
         <ListGroup variant="flush">
             <ListGroup.Item>
                 <h3>{product.name}</h3>
+               
             </ListGroup.Item>
             <ListGroup.Item>
                 <Rating value={product.rating} text={`${product.numReviews} reviews`}/>
@@ -74,6 +75,9 @@ const ProductScreen = () => {
         </Col>
 
     </Row> 
+    )
+    
+    }    
 
     </>
   )
