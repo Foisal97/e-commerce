@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 dotenv.config();
 import productRoutes from "./routes/productRoutes.js"
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 const port = process.env.PORT
 
@@ -13,6 +14,9 @@ app.get("/", (req,res)=>{
     res.send("api is running");
 })
 
-app.use("/api/products", productRoutes)
+app.use("/api/products", productRoutes);
 
-app.listen(port, ()=> console.log(`server running on port ${port}`))
+app.use(notFound);
+app.use(errorHandler);
+
+app.listen(port, ()=> console.log(`server running on port ${port}`));
