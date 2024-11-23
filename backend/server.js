@@ -6,11 +6,17 @@ dotenv.config();
 import productRoutes from "./routes/productRoutes.js"
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import userRoutes from "./routes/userRoutes.js"
-
+import cors from "cors"
 const port = process.env.PORT
 
 connectDB();
 const app = express()
+
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+}));
+
 
 //Body parser middleware
 app.use(express.json())
