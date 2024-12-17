@@ -11,6 +11,7 @@ import {
 } from "react-router-dom"
 import './index.css'
 import App from './App.jsx'
+import PrivateRoute from './components/PrivateRoute.jsx';
 import HomeScreen from './screens/HomeScreen.jsx';
 import ProductScreen from './screens/ProductScreen.jsx';
 import CartScreen from './screens/CartScreen.jsx';
@@ -26,7 +27,11 @@ const router = createBrowserRouter(
       <Route path="/cart" element={<CartScreen/>}/>
       <Route path="/login" element={<LoginScren/>}/>
       <Route path="/register" element={<RegisterScreen/>}/>
-      <Route path="/shipping" element={<ShippingScreen/>} />
+      
+
+      <Route path="" element={<PrivateRoute/>}>
+        <Route path="/shipping" element={<ShippingScreen/>} />
+      </Route>
 
     </Route>
   )
