@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
 import {Button, Row, Col, ListGroup, Image, Card} from "react-bootstrap"
@@ -6,7 +5,8 @@ import CheckoutSteps from "../components/CheckoutSteps"
 import { toast } from "react-toastify"
 import Loader from "../components/Loader"
 import { useCreateOrderMutation } from "../slices/orderApiSlice"
-import { clearCartItems, saveShippingAddress } from "../slices/cartSlice"
+import { clearCartItems} from "../slices/cartSlice"
+import Message from "../components/Message.jsx";
 
 const PlaceOrderScreen = () => {
     const navigate = useNavigate();
@@ -36,8 +36,7 @@ const PlaceOrderScreen = () => {
           totalPrice: cart.totalPrice
         }).unwrap();
         dispatch(clearCartItems());
-        navigate(`/order/res._id`);
-        console.log("yay");
+        navigate(`/order/${res._id}`);
       }catch(error){
         toast.error(error);
       }

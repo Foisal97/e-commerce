@@ -11,7 +11,7 @@ const addOrderItems = asyncHandler(async (req, res, next) => {
 
         const {
             orderItems,
-            saveShippingAddress, // Corrected to match payload structure
+            saveShippingAddress,
             paymentMethod,
             itemPrice,
             taxPrice,
@@ -25,7 +25,7 @@ const addOrderItems = asyncHandler(async (req, res, next) => {
             throw new Error("No order items");
         }
 
-        // Map the correct shipping address from saveShippingAddress
+
         const shippingAddress = {
             address: saveShippingAddress?.address,
             city: saveShippingAddress?.city,
@@ -33,7 +33,7 @@ const addOrderItems = asyncHandler(async (req, res, next) => {
             country: saveShippingAddress?.country
         };
 
-        // Validate shipping address fields
+
         if (!shippingAddress.address || !shippingAddress.city || !shippingAddress.postalCode || !shippingAddress.country) {
             console.error("Validation Error: Missing required shipping address fields");
             res.status(400);
@@ -46,8 +46,8 @@ const addOrderItems = asyncHandler(async (req, res, next) => {
                 product: x._id,
                 _id: undefined
             })),
-            user: req.user?._id, // Optional chaining to avoid crashes if req.user is undefined
-            shippingAddress, // Now correctly assigned from saveShippingAddress
+            user: req.user?._id,
+            shippingAddress,
             paymentMethod,
             itemPrice,
             taxPrice,
@@ -61,7 +61,7 @@ const addOrderItems = asyncHandler(async (req, res, next) => {
         res.status(201).json(createdOrder);
     } catch (error) {
         console.error("Error in addOrderItems:", error.message);
-        next(error);  // Forward error to global error handler
+        next(error);
     }
 });
 
@@ -81,7 +81,6 @@ const getMyOrders = asyncHandler(async(req, res)=> {
 //@access  Private
 const getOrderById = asyncHandler(async(req, res)=> {
     const order = await Order.findById(req.params.id).populate("user", "name email");
-
     if (order){
         res.status(200).json(order);
     }else{
