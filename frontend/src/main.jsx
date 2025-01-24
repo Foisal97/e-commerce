@@ -20,6 +20,7 @@ import RegisterScreen from './screens/RegisterScreen.jsx';
 import ShippingScreen from './screens/shippingScreen.jsx';
 import PaymentScreen from './screens/PaymentScreen.jsx';
 import PlaceOrderScreen from './screens/placeOrderScreen.jsx';
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App/>}>
